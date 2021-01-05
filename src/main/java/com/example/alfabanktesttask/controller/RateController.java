@@ -14,7 +14,7 @@ public class RateController {
         this.service = service;
     }
 
-    @GetMapping("/rate")
+    @GetMapping("/app")
     public String getRates(@RequestParam("code") String countryCode) {
         String gifUrl = service.foo(countryCode);
         return String.format("redirect:%s", gifUrl);
