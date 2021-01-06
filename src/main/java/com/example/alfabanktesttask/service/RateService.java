@@ -6,14 +6,15 @@ import com.example.alfabanktesttask.domain.RateInfo;
 import com.example.alfabanktesttask.exception.CodeNotFoundException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-@Component
+
+@Service
 public class RateService implements InitializingBean {
 
     private OpenExchangeClient openExchangeClient;
@@ -40,7 +41,6 @@ public class RateService implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         openExchangeQueryMap = new HashMap<>();
         openExchangeQueryMap.put("app_id", openExchangeApiKey);
-        openExchangeQueryMap.put("base", baseCurrency);
 
         giphyQueryMap = new HashMap<>();
         giphyQueryMap.put("api_key", giphyApiKey);
@@ -56,7 +56,11 @@ public class RateService implements InitializingBean {
     private Double getCurrRate(String code) {
 
         RateInfo currInfo = openExchangeClient.getLatestInfo(openExchangeQueryMap);
-        return currInfo.getRates().get(code);
+
+        double baseRate = currInfo.getRates().get(baseCurrency);
+        double targetRate = currInfo.getRates().get(code);
+
+        return baseRate/targetRate;
 
     }
 
@@ -66,7 +70,10 @@ public class RateService implements InitializingBean {
         RateInfo yesterdayInfo = openExchangeClient
                 .getHistoricalInfo(yesterdayDate, openExchangeQueryMap);
 
-        return yesterdayInfo.getRates().get(code);
+        double baseRate = yesterdayInfo.getRates().get(baseCurrency);
+        double targetRate = yesterdayInfo.getRates().get(code);
+
+        return baseRate/targetRate;
     }
 
     private String getRandomGifURL(String query) {
@@ -85,7 +92,7 @@ public class RateService implements InitializingBean {
     }
 
 
-    public String foo(String code) {
+    public String mainFunc(String code) {
 
         if (!checkCountryCode(code)) {
             throw new CodeNotFoundException();

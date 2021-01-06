@@ -22,7 +22,12 @@ class AlfaBankTestTaskApplicationTests {
     }
 
     @Test
-    void redirectTest() throws Exception {
-        mockMvc.perform(get("/rate?code=BTC")).andExpect(status().is3xxRedirection());
+    void checkRedirectTest() throws Exception {
+        mockMvc.perform(get("/app/RUB")).andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void notExistingCodeTest() throws Exception {
+        mockMvc.perform(get("/app/XYZ")).andExpect(status().is4xxClientError());
     }
 }

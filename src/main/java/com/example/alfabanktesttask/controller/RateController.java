@@ -3,7 +3,7 @@ package com.example.alfabanktesttask.controller;
 import com.example.alfabanktesttask.service.RateService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class RateController {
@@ -14,9 +14,9 @@ public class RateController {
         this.service = service;
     }
 
-    @GetMapping("/app")
-    public String getRates(@RequestParam("code") String countryCode) {
-        String gifUrl = service.foo(countryCode);
+    @GetMapping("/app/{code}")
+    public String getRates(@PathVariable("code") String countryCode) {
+        String gifUrl = service.mainFunc(countryCode);
         return String.format("redirect:%s", gifUrl);
     }
 
