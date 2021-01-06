@@ -15,7 +15,7 @@ public class RateController {
     }
 
     @GetMapping("/app/{code}")
-    public String getRates(@PathVariable("code") String countryCode) {
+    public String mainHandler(@PathVariable("code") String countryCode) {
         String gifUrl = service.mainFunc(countryCode);
         return String.format("redirect:%s", gifUrl);
     }

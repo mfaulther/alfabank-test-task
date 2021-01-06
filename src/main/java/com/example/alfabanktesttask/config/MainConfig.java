@@ -20,7 +20,7 @@ public class MainConfig {
 
 
     @Bean
-    OpenExchangeClient rateInfo() {
+    OpenExchangeClient openExchangeClient() {
         return Feign.builder()
                 .decoder(new JacksonDecoder())
                 .target(OpenExchangeClient.class, openExchangeURL);

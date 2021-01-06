@@ -10,7 +10,7 @@ import java.util.Map;
 public class Gif {
 
     private String type;
-    private String embed_url;
+    private String embedUrl;
     private Map<String, Image> images;
 
 }
